@@ -93,16 +93,16 @@ class Court
 		return this.m_oneStepDistance;
 	}
 
-	fertilizeBalls(fatherBall, matherBall)
+	fertilizeBalls(fatherBall, motherBall)
 	{
 		for (var i = 0; i < this.m_balls.length; i++) {
-			if( (this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != matherBall.getId())) {
+			if( (this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != motherBall.getId())) {
 				for (var j = 0; j < this.m_balls[i].gen.getRoute().length; j++) {
 					var rand = Math.random();
 					if (rand < this.m_fertilizationPercentage/100.0) {
 						this.m_balls[i].gen.setRoute(j, fatherBall.gen.getRoutePosition(j));
 					} else {
-						this.m_balls[i].gen.setRoute(j, matherBall.gen.getRoutePosition(j));
+						this.m_balls[i].gen.setRoute(j, motherBall.gen.getRoutePosition(j));
 					}
 				}
 				this.addBall(i);
@@ -124,10 +124,10 @@ class Court
 		return [sortedList[0].id, sortedList[1].id];
 	}
 
-	mutation(fatherBall, matherBall)
+	mutation(fatherBall, motherBall)
 	{
 		for (var i = 0; i < this.m_balls.length; i++) {
-			if( (this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != matherBall.getId())) {
+			if( (this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != motherBall.getId())) {
 				for (var j = 0; j < this.m_balls[i].gen.getRoute().length; j++) {
 					var rand = Math.random();
 					if (rand < this.m_mutationPercentage/100.0) {
@@ -168,7 +168,7 @@ class Court
 		setTimeout(function movimentation(that) {
 			// Local Use Variables
 			var fatherBallId = 0;
-			var matherBallId = 1;
+			var motherBallId = 1;
 			// Apply Balls Movements
 			if(!that.m_balls[that.m_balls.length - 1].getRouteEnd()) {
 				for (var i = 0; i < that.m_balls.length; i++) {
@@ -181,16 +181,16 @@ class Court
 				// Apply Dna Generation
 				that.generateDna();
 				// Apply Natural Selection
-				[fatherBallId, matherBallId] = that.naturalSelection();
+				[fatherBallId, motherBallId] = that.naturalSelection();
 				// Apply Fertilization
-				that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[matherBallId]);
+				that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
 				// Apply Mutation
-				that.mutation(that.m_balls[fatherBallId], that.m_balls[matherBallId]);
+				that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
 				// Apply Delay
 				console.log("Waiting 5 seconds...");
 				sleep(5000);
 				// Destroy Routes
-				that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[matherBallId]);
+				that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
 				// Apply recursion
 				setTimeout(movimentation, 80, that);				
 			}
@@ -214,11 +214,11 @@ class Court
 		this.m_balls[id].setAlive(false);
 	}
 
-	killDeadRoutes(fatherBall, matherBall)
+	killDeadRoutes(fatherBall, motherBall)
 	{
 		for (var i = 0; i < this.m_balls.length; i++) {
 			for (var j = 0; j < this.m_balls[i].m_gen.m_img.length; j++) {
-				if ((this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != matherBall.getId())) {
+				if ((this.m_balls[i].getId() != fatherBall.getId()) && (this.m_balls[i].getId() != motherBall.getId())) {
 					this.m_balls[i].m_gen.m_img[j].style.visibility = 'hidden';
 				}
 			}
