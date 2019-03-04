@@ -88,8 +88,8 @@ class Ball
 	{
 		this.m_img.src = "image/ball.png";
 		this.m_img.style = "position:absolute;"
-		this.m_img.style.left = this.getX();
-    	this.m_img.style.top = this.getY();		
+		this.m_img.style.left = this.getX() + "px";
+    	this.m_img.style.top = this.getY() + "px";
     	this.m_img.width = 30; // for a while it is hardcoded
     	this.m_img.height = 30; // for a while it is hardcoded
 		document.getElementById("display").appendChild(this.m_img);
@@ -137,8 +137,8 @@ class Ball
 			this.m_gen.m_img[this.m_routePosition].src = "image/right.png";
 		}
 		this.m_gen.m_img[this.m_routePosition].style = "position:absolute;";
-		this.m_gen.m_img[this.m_routePosition].style.left = this.getX() + 15; // for a while it is hardcoded
-		this.m_gen.m_img[this.m_routePosition].style.top = this.getY();
+		this.m_gen.m_img[this.m_routePosition].style.left = this.getX() + 15 + "px"; // for a while it is hardcoded
+		this.m_gen.m_img[this.m_routePosition].style.top = this.getY() + "px";
     	this.m_gen.m_img[this.m_routePosition].width = 10; // for a while it is hardcoded
     	this.m_gen.m_img[this.m_routePosition].height = 10; // for a while it is hardcoded
     	this.m_gen.m_img[this.m_routePosition].style.visibility = 'visible'; 	

@@ -62,10 +62,10 @@ class Basket
 	{
 		this.m_img.src = "image/basket.png";
 		this.m_img.style = "position:absolute;"
-		this.m_img.style.left = this.getXMin();
-    	this.m_img.style.top = this.getYMin();		
+		this.m_img.style.left = this.getXMin() + "px";
+    	this.m_img.style.top = this.getYMin() + "px";
     	this.m_img.width = this.getXMax() - this.getXMin();
-    	this.m_img.height = this.getYMax() - this.getYMin();    	
+    	this.m_img.height = this.getYMax() - this.getYMin();
 		document.getElementById("display").appendChild(this.m_img);
 	}
 }

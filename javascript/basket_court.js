@@ -23,7 +23,7 @@ class Court
 		this.m_basket = new Basket((xMin + xMax)/2 - 25, (xMin + xMax)/2 + 25, yMin, yMin + 50);
 
 		for (var i = 0; i < this.m_balls.length; i++) {
-			this.m_balls[i] = new Ball(0, yMax, i);
+			this.m_balls[i] = new Ball(xMin, yMax, i);
 			this.addBall(i);
 		}
 	}
@@ -153,10 +153,11 @@ class Court
 	{
 		this.m_img.src = "image/court.png";
 		this.m_img.style = "position:absolute;"
-		this.m_img.style.left = this.getXMin();
-    	this.m_img.style.top = this.getYMin();		
+		this.m_img.style.left = this.getXMin() + "px";
+    	this.m_img.style.top = this.getYMin() + "px";
     	this.m_img.width = this.getXMax() - this.getXMin();
     	this.m_img.height = this.getYMax() - this.getYMin();
+        console.log(this.m_img.style.left);
 		document.getElementById("display").appendChild(this.m_img);
 	}
 
@@ -164,6 +165,7 @@ class Court
 	{
 		this.draw();
 		this.m_basket.draw();
+        var timeWait = false;
 
 		setTimeout(function movimentation(that) {
 			// Local Use Variables
@@ -178,22 +180,28 @@ class Court
 				}
 				setTimeout(movimentation, 80, that);
 			} else {
-				// Apply Dna Generation
-				that.generateDna();
-				// Apply Natural Selection
-				[fatherBallId, motherBallId] = that.naturalSelection();
-				// Apply Fertilization
-				that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-				// Apply Mutation
-				that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-				// Apply Delay
-				console.log("Waiting 5 seconds...");
-				sleep(5000);
-				// Destroy Routes
-				that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-				// Apply recursion
-				setTimeout(movimentation, 80, that);				
-			}
+                if (!timeWait) {
+                    // Apply Delay
+                    console.log("Waiting 5 seconds...");
+                    timeWait = true;
+                    setTimeout(movimentation, 5000, that);
+                } else {
+                    // Stopped waiting
+                    timeWait = false;
+                    // Apply Dna Generation
+                    that.generateDna();
+                    // Apply Natural Selection
+                    [fatherBallId, motherBallId] = that.naturalSelection();
+                    // Apply Fertilization
+                    that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                    // Apply Mutation
+                    that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                    // Destroy Routes
+                    that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                    // Apply recursion
+                    setTimeout(movimentation, 80, that);
+                }
+            }
 		}, 80, this);
 	}
 
