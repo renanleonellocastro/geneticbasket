@@ -23,7 +23,7 @@ class Court
 		this.m_basket = new Basket((xMin + xMax)/2 - 25, (xMin + xMax)/2 + 25, yMin, yMin + 50);
 
 		for (var i = 0; i < this.m_balls.length; i++) {
-			this.m_balls[i] = new Ball(xMin, yMax, i);
+			this.m_balls[i] = new Ball((xMin + xMax)/2 - 15, yMax, i);
 			this.addBall(i);
 		}
 	}
@@ -154,10 +154,9 @@ class Court
 		this.m_img.src = "image/court.png";
 		this.m_img.style = "position:absolute;"
 		this.m_img.style.left = this.getXMin() + "px";
-    	this.m_img.style.top = this.getYMin() + "px";
-    	this.m_img.width = this.getXMax() - this.getXMin();
-    	this.m_img.height = this.getYMax() - this.getYMin();
-        console.log(this.m_img.style.left);
+    	        this.m_img.style.top = this.getYMin() + "px";
+    	        this.m_img.width = this.getXMax() - this.getXMin();
+    	        this.m_img.height = this.getYMax() - this.getYMin();
 		document.getElementById("display").appendChild(this.m_img);
 	}
 
@@ -165,7 +164,6 @@ class Court
 	{
 		this.draw();
 		this.m_basket.draw();
-        var timeWait = false;
 
 		setTimeout(function movimentation(that) {
 			// Local Use Variables
@@ -176,32 +174,28 @@ class Court
 				for (var i = 0; i < that.m_balls.length; i++) {
 					that.m_balls[i].drawRoute();
 					that.m_balls[i].draw();
-					that.m_balls[i].move(that.getOneStepDistance());
+                    that.m_balls[i].move(that.getOneStepDistance());
 				}
 				setTimeout(movimentation, 80, that);
 			} else {
-                if (!timeWait) {
-                    // Apply Delay
-                    console.log("Waiting 5 seconds...");
-                    timeWait = true;
-                    setTimeout(movimentation, 5000, that);
-                } else {
-                    // Stopped waiting
-                    timeWait = false;
-                    // Apply Dna Generation
-                    that.generateDna();
-                    // Apply Natural Selection
-                    [fatherBallId, motherBallId] = that.naturalSelection();
-                    // Apply Fertilization
-                    that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-                    // Apply Mutation
-                    that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-                    // Destroy Routes
-                    that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-                    // Apply recursion
-                    setTimeout(movimentation, 80, that);
-                }
-            }
+                                // Apply Dna Generation
+                                that.generateDna();
+                                // Apply Natural Selection
+                                [fatherBallId, motherBallId] = that.naturalSelection();
+                                // Change Color of Mother and fatherBall
+                                that.m_balls[fatherBallId].invertColor();
+                                that.m_balls[motherBallId].invertColor();
+                                // Apply Fertilization
+                                that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                                // Apply Mutation
+                                that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                                // Destroy Routes
+                                that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
+                                // Apply Delay
+                                console.log("Waiting 5 seconds...");
+                                // Apply recursion
+                                setTimeout(movimentation, 5000, that);
+                        }
 		}, 80, this);
 	}
 
@@ -209,10 +203,10 @@ class Court
 	{
 		for (var i = 0; i < this.m_balls.length; i++) {
 			this.m_balls[i].calculateTravelledDistance(this.m_oneStepDistance);
-			if(this.m_balls[i].getX() > this.m_basket.getXMin() && (this.m_balls[i].getX() < this.m_basket.getXMax())) {
+			if(this.m_balls[i].getXCenter() > (this.m_basket.getXMin() + 10) && (this.m_balls[i].getXCenter() < (this.m_basket.getXMax() - 10))) {
 				this.m_balls[i].dna.setDistanceFromBasket(0);
 			} else {
-				this.m_balls[i].dna.setDistanceFromBasket(Math.abs(this.m_balls[i].getX() - (this.m_basket.getXMin() + this.m_basket.getXMax())/2));
+				this.m_balls[i].dna.setDistanceFromBasket(Math.abs(this.m_balls[i].getXCenter() - (this.m_basket.getXMin() + this.m_basket.getXMax())/2));
 			}
 		}
 	}

@@ -11,8 +11,8 @@ class Gen
 {
 	constructor() 
 	{
-		this.m_route = new Array(50);
-		this.m_img = new Array(50);
+		this.m_route = new Array(49);
+		this.m_img = new Array(49);
 		for (var i = 0; i < this.m_route.length; i++) {
 			this.m_img[i] = new Image();
 			var rand = Math.random();

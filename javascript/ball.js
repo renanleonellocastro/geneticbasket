@@ -14,6 +14,7 @@ class Ball
 		this.m_x = x;
 		this.m_xStart = x;
 		this.m_y = y;
+                this.m_xCenter = x + 15;
 		this.m_yStart = y;
 		this.m_alive = false;
 		this.m_id = id;
@@ -26,6 +27,7 @@ class Ball
 	setX(x)
 	{
 		this.m_x = x;
+                this.m_xCenter = x + 15;
 	}
 
 	setY(y)
@@ -42,6 +44,7 @@ class Ball
 	{
 		this.m_routePosition = 0;
 		this.m_x = this.m_xStart;
+                this.m_xCenter = this.m_xStart + 15;
 		this.m_y = this.m_yStart;
 	}
 
@@ -49,6 +52,11 @@ class Ball
 	{
 		return this.m_x;
 	}
+	
+	getXCenter()
+        {
+                return this.m_xCenter;
+        }
 
 	getY()
 	{
@@ -89,11 +97,16 @@ class Ball
 		this.m_img.src = "image/ball.png";
 		this.m_img.style = "position:absolute;"
 		this.m_img.style.left = this.getX() + "px";
-    	this.m_img.style.top = this.getY() + "px";
-    	this.m_img.width = 30; // for a while it is hardcoded
-    	this.m_img.height = 30; // for a while it is hardcoded
+    	        this.m_img.style.top = this.getY() + "px";
+    	        this.m_img.width = 30; // for a while it is hardcoded
+    	        this.m_img.height = 30; // for a while it is hardcoded
 		document.getElementById("display").appendChild(this.m_img);
 	}
+	
+	invertColor()
+        {
+                this.m_img.style.filter="invert(100%)";
+        }
 
 	calculateTravelledDistance(oneStepDistance)
 	{
@@ -138,10 +151,10 @@ class Ball
 		}
 		this.m_gen.m_img[this.m_routePosition].style = "position:absolute;";
 		this.m_gen.m_img[this.m_routePosition].style.left = this.getX() + 15 + "px"; // for a while it is hardcoded
-		this.m_gen.m_img[this.m_routePosition].style.top = this.getY() + "px";
-    	this.m_gen.m_img[this.m_routePosition].width = 10; // for a while it is hardcoded
-    	this.m_gen.m_img[this.m_routePosition].height = 10; // for a while it is hardcoded
-    	this.m_gen.m_img[this.m_routePosition].style.visibility = 'visible'; 	
+		this.m_gen.m_img[this.m_routePosition].style.top = this.getY() + 15 + "px";
+    	        this.m_gen.m_img[this.m_routePosition].width = 10; // for a while it is hardcoded
+    	        this.m_gen.m_img[this.m_routePosition].height = 10; // for a while it is hardcoded
+    	        this.m_gen.m_img[this.m_routePosition].style.visibility = 'visible'; 	
 		document.getElementById("display").appendChild(this.m_gen.m_img[this.m_routePosition]);
 	}
 }
