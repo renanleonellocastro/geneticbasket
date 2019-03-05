@@ -181,6 +181,13 @@ class Court
 				setTimeout(movimentation, 80, that);
 			} else {
                 if (!timeWait) {
+                    // Apply Delay
+                    console.log("Waiting 5 seconds...");
+                    timeWait = true;
+                    setTimeout(movimentation, 5000, that);
+                } else {
+                    // Stopped waiting
+                    timeWait = false;
                     // Apply Dna Generation
                     that.generateDna();
                     // Apply Natural Selection
@@ -189,13 +196,6 @@ class Court
                     that.fertilizeBalls(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
                     // Apply Mutation
                     that.mutation(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
-                    // Apply Delay
-                    timeWait = true;
-                    console.log("Waiting 5 seconds...");
-                    setTimeout(movimentation, 5000, that);
-                } else {
-                    // Stopped waiting
-                    timeWait = false;
                     // Destroy Routes
                     that.killDeadRoutes(that.m_balls[fatherBallId], that.m_balls[motherBallId]);
                     // Apply recursion
